@@ -3,18 +3,26 @@
 [ext_resource type="PackedScene" uid="uid://u0iv0nayhn73" path="res://Scenes/elevator.tscn" id="1_bo1nx"]
 [ext_resource type="Script" uid="uid://d6lq7box3ji7" path="res://Scripts/elevator.gd" id="2_8gbba"]
 [ext_resource type="Script" uid="uid://b08fsc1haa647" path="res://Scripts/make_ui.gd" id="3_8gbba"]
+[ext_resource type="Script" uid="uid://114m67871xl1" path="res://Scripts/queue_display.gd" id="4_jjvhh"]
 
 [node name="Main" type="Node2D" unique_id=824640743]
 
 [node name="Elevator" parent="." unique_id=670379961 instance=ExtResource("1_bo1nx")]
-position = Vector2(224, 528)
+position = Vector2(384, 256)
 script = ExtResource("2_8gbba")
 
 [node name="ElevatorButtons" type="VBoxContainer" parent="." unique_id=1475753334]
-offset_left = 768.0
-offset_right = 1024.0
-offset_bottom = 648.0
+offset_left = 680.0
+offset_top = 8.0
+offset_right = 936.0
+offset_bottom = 524.0
 alignment = 1
 script = ExtResource("3_8gbba")
 
+[node name="Queue" type="Label" parent="." unique_id=247635226]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("4_jjvhh")
+
+[connection signal="reached_floor" from="Elevator" to="ElevatorButtons" method="_on_elevator_reached_floor"]
 [connection signal="call_elevator" from="ElevatorButtons" to="Elevator" method="_on_elevator_buttons_call_elevator"]

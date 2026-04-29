@@ -1,29 +1,52 @@
 extends StaticBody2D
 
-const SPEED: float = 500.0
+const SPEED: float = 100.0
 const FLOORS: int = 10
-var travelling_to: int = 0
+
+var target_floors: Array[int] = []
+
+enum ElevatorState {
+	IDLE,
+	MOVING_UP,
+	MOVING_DOWN,
+	DOOR_OPENING,
+	DOOR_CLOSING
+}
+
+signal reached_floor(floor: int)
 
 func get_floor_position(floor: int) -> float:
-	var height = get_window().size.y
-	return height
-	#var usable_height = height - $CollisionShape2D.
+	var height: float = get_viewport_rect().size.y
+	var bound_height: float = $CollisionShape2D.get_shape().get_rect().size.y
+	var usable: float = height - bound_height
+	return (usable / FLOORS) * (10 - floor) + (3 * bound_height / 4)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	pass
 
+func move_to_floor(delta: float):
+	if not target_floors:
+		return
+	
+	var target = Vector2(
+		self.position.x, 
+		get_floor_position(target_floors[0])
+	)
+	if position.distance_to(target) > SPEED * delta:
+		move_and_collide(
+			position.direction_to(target) * SPEED * delta
+		)
+	else:
+		position = target
+		var floor = target_floors.pop_front()
+		reached_floor.emit(floor)
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	var dy = (64 * (10 - travelling_to)) - position.y
-	var distance = abs(dy)
-	var direction = -sign(dy)
-	if distance < 5 or travelling_to == 0:
-		travelling_to = 0
-	else:
-		move_and_collide(direction * Vector2.UP * SPEED * delta)
+	move_to_floor(delta)
 
 
 func _on_elevator_buttons_call_elevator(floor: int) -> void:
-	travelling_to = floor
+	target_floors.push_back(floor)
