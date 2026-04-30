@@ -19,7 +19,7 @@ config/icon="res://Assets/icon.svg"
 
 window/size/viewport_width=960
 window/size/viewport_height=540
-window/stretch/scale_mode="integer"
+window/stretch/mode="viewport"
 
 [physics]
 
@@ -28,3 +28,4 @@ window/stretch/scale_mode="integer"
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+environment/defaults/default_clear_color=Color(0.11674089, 0.116740905, 0.11674089, 1)

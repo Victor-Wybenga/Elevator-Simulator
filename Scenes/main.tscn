@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://elfqesmrvy21"]
 
 [ext_resource type="PackedScene" uid="uid://u0iv0nayhn73" path="res://Scenes/elevator.tscn" id="1_bo1nx"]
-[ext_resource type="Script" uid="uid://d6lq7box3ji7" path="res://Scripts/elevator.gd" id="2_8gbba"]
 [ext_resource type="Script" uid="uid://b08fsc1haa647" path="res://Scripts/make_ui.gd" id="3_8gbba"]
 [ext_resource type="Script" uid="uid://114m67871xl1" path="res://Scripts/queue_display.gd" id="4_jjvhh"]
 
@@ -9,13 +8,13 @@
 
 [node name="Elevator" parent="." unique_id=670379961 instance=ExtResource("1_bo1nx")]
 position = Vector2(384, 256)
-script = ExtResource("2_8gbba")
 
 [node name="ElevatorButtons" type="VBoxContainer" parent="." unique_id=1475753334]
-offset_left = 680.0
-offset_top = 8.0
-offset_right = 936.0
-offset_bottom = 524.0
+texture_filter = 1
+offset_left = 416.0
+offset_top = 16.0
+offset_right = 464.0
+offset_bottom = 532.0
 alignment = 1
 script = ExtResource("3_8gbba")
 
