@@ -12,9 +12,9 @@ position = Vector2(384, 256)
 [node name="ElevatorButtons" type="VBoxContainer" parent="." unique_id=1475753334]
 texture_filter = 1
 offset_left = 416.0
-offset_top = 16.0
+offset_top = 24.0
 offset_right = 464.0
-offset_bottom = 532.0
+offset_bottom = 510.0
 alignment = 1
 script = ExtResource("3_8gbba")
 
