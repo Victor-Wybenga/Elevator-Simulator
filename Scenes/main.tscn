@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://b08fsc1haa647" path="res://Scripts/make_ui.gd" id="3_8gbba"]
 [ext_resource type="Script" uid="uid://114m67871xl1" path="res://Scripts/queue_display.gd" id="4_jjvhh"]
 
+[sub_resource type="TileSet" id="TileSet_8gbba"]
+
 [node name="Main" type="Node2D" unique_id=824640743]
 
 [node name="Elevator" parent="." unique_id=670379961 instance=ExtResource("1_bo1nx")]
@@ -22,6 +24,10 @@ script = ExtResource("3_8gbba")
 offset_right = 40.0
 offset_bottom = 23.0
 script = ExtResource("4_jjvhh")
+
+[node name="TileMap" type="TileMap" parent="." unique_id=2090622677]
+tile_set = SubResource("TileSet_8gbba")
+format = 2
 
 [connection signal="reached_floor" from="Elevator" to="ElevatorButtons" method="_on_elevator_reached_floor"]
 [connection signal="call_elevator" from="ElevatorButtons" to="Elevator" method="_on_elevator_buttons_call_elevator"]

@@ -8,6 +8,7 @@ signal call_elevator(floor: int)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	for floor in range(10):
+		var row: HBoxContainer = HBoxContainer.new()
 		var button: Button = Button.new()
 		button.custom_minimum_size = Vector2(45, 45)
 		button.text = str(10 - floor)
