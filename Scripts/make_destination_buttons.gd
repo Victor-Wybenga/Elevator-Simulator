@@ -17,8 +17,4 @@ func _ready() -> void:
 		add_child(button)
 
 func _on_button_pressed(floor: int) -> void:
-	get_child(10 - floor).disabled = true
 	call_elevator.emit(floor)
-
-func _on_elevator_reached_floor(floor: int) -> void:
-	get_child(10 - floor).disabled = false

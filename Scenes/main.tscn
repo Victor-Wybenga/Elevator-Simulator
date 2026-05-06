@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://u0iv0nayhn73" path="res://Scenes/elevator.tscn" id="1_bo1nx"]
 [ext_resource type="Script" uid="uid://mfdy5qqx77e5" path="res://Scripts/make_call_buttons.gd" id="2_8gbba"]
 [ext_resource type="Script" uid="uid://114m67871xl1" path="res://Scripts/queue_display.gd" id="4_jjvhh"]
-[ext_resource type="PackedScene" uid="uid://clfccduyqpou3" path="res://Scenes/destination_floor_buttons.tscn" id="4_kry3j"]
+[ext_resource type="PackedScene" path="res://Scenes/destination_floor_buttons.tscn" id="4_kry3j"]
 
 [node name="Main" type="Node2D" unique_id=824640743]
 
@@ -25,10 +25,11 @@ offset_bottom = 23.0
 script = ExtResource("4_jjvhh")
 
 [node name="DestinationFloorButtons" parent="." unique_id=1992610041 instance=ExtResource("4_kry3j")]
-offset_left = 635.0
-offset_top = 81.0
-offset_right = 913.0
-offset_bottom = 453.0
+visible = false
+offset_left = 112.0
+offset_top = 72.0
+offset_right = 390.0
+offset_bottom = 444.0
 
 [connection signal="reached_floor" from="Elevator" to="ElevatorButtons" method="_on_elevator_reached_floor"]
 [connection signal="call_elevator" from="ElevatorButtons" to="Elevator" method="_on_elevator_buttons_call_elevator"]
