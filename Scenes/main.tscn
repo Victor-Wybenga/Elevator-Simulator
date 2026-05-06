@@ -1,10 +1,9 @@
 [gd_scene format=3 uid="uid://elfqesmrvy21"]
 
 [ext_resource type="PackedScene" uid="uid://u0iv0nayhn73" path="res://Scenes/elevator.tscn" id="1_bo1nx"]
-[ext_resource type="Script" uid="uid://b08fsc1haa647" path="res://Scripts/make_ui.gd" id="3_8gbba"]
+[ext_resource type="Script" uid="uid://mfdy5qqx77e5" path="res://Scripts/make_call_buttons.gd" id="2_8gbba"]
 [ext_resource type="Script" uid="uid://114m67871xl1" path="res://Scripts/queue_display.gd" id="4_jjvhh"]
-
-[sub_resource type="TileSet" id="TileSet_8gbba"]
+[ext_resource type="PackedScene" uid="uid://clfccduyqpou3" path="res://Scenes/destination_floor_buttons.tscn" id="4_kry3j"]
 
 [node name="Main" type="Node2D" unique_id=824640743]
 
@@ -18,16 +17,19 @@ offset_top = 24.0
 offset_right = 464.0
 offset_bottom = 510.0
 alignment = 1
-script = ExtResource("3_8gbba")
+script = ExtResource("2_8gbba")
 
 [node name="Queue" type="Label" parent="." unique_id=247635226]
 offset_right = 40.0
 offset_bottom = 23.0
 script = ExtResource("4_jjvhh")
 
-[node name="TileMap" type="TileMap" parent="." unique_id=2090622677]
-tile_set = SubResource("TileSet_8gbba")
-format = 2
+[node name="DestinationFloorButtons" parent="." unique_id=1992610041 instance=ExtResource("4_kry3j")]
+offset_left = 635.0
+offset_top = 81.0
+offset_right = 913.0
+offset_bottom = 453.0
 
 [connection signal="reached_floor" from="Elevator" to="ElevatorButtons" method="_on_elevator_reached_floor"]
 [connection signal="call_elevator" from="ElevatorButtons" to="Elevator" method="_on_elevator_buttons_call_elevator"]
+[connection signal="call_elevator" from="DestinationFloorButtons" to="Elevator" method="_on_destination_floor_buttons_call_elevator"]

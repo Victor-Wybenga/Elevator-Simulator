@@ -28,4 +28,4 @@ window/stretch/mode="viewport"
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-environment/defaults/default_clear_color=Color(0.11674089, 0.116740905, 0.11674089, 1)
+environment/defaults/default_clear_color=Color(0.40069804, 0.4006976, 0.40069768, 1)

@@ -81,3 +81,6 @@ func _on_timer_timeout() -> void:
 	elif target_floor > current_floor: state = ElevatorState.MOVING_UP
 	elif target_floor < current_floor: state = ElevatorState.MOVING_DOWN
 		
+
+func _on_destination_floor_buttons_call_elevator(floor: int) -> void:
+	called_floors.push_back(floor)

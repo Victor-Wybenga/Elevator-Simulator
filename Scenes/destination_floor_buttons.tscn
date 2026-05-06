@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://clfccduyqpou3"]
+
+[ext_resource type="Script" uid="uid://b0qukvcgesfvi" path="res://Scripts/make_destination_buttons.gd" id="1_h82aa"]
+
+[node name="DestinationFloorButtons" type="GridContainer" unique_id=2044454744]
+columns = 3
+script = ExtResource("1_h82aa")
