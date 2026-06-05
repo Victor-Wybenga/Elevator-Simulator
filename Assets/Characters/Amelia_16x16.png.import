@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dobcl0uwcrq8l"
-path="res://.godot/imported/tilesets_deviant_milkian_1.png-e39eb195aa7b7a6c1bbc83253d2a0088.ctex"
+uid="uid://u100x8fkr4uy"
+path="res://.godot/imported/Amelia_16x16.png-b0bba13952d0298a92a480a1b8abb06f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/tilesets_deviant_milkian_1.png"
-dest_files=["res://.godot/imported/tilesets_deviant_milkian_1.png-e39eb195aa7b7a6c1bbc83253d2a0088.ctex"]
+source_file="res://Assets/Characters/Amelia_16x16.png"
+dest_files=["res://.godot/imported/Amelia_16x16.png-b0bba13952d0298a92a480a1b8abb06f.ctex"]
 
 [params]
 

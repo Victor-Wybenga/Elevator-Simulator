@@ -13,7 +13,6 @@ config_version=5
 config/name="Elevator-Simulator"
 run/main_scene="uid://elfqesmrvy21"
 config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="res://Assets/icon.svg"
 
 [display]
 

@@ -51,7 +51,7 @@ func _process(delta: float) -> void:
 		Door.OPENING: $ColorRect.color = Color.RED
 		Door.OPEN: $ColorRect.color = Color.ORANGE
 		Door.CLOSING: $ColorRect.color = Color.YELLOW
-		_: $ColorRect.color = Color.WHITE
+		_: $ColorRect.color = Color.BLACK
 
 func closest_floor_direction() -> Direction:
 	var next_floor = requested_floors.find(true) + 1

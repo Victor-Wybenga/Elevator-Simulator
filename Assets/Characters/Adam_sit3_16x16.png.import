@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://y74jt4nmvmvk"
-path="res://.godot/imported/bgtiles.png-d924bd12f22a769415db27e66df3d3d1.ctex"
+uid="uid://baj4xr1fvlmkj"
+path="res://.godot/imported/Adam_sit3_16x16.png-aa12bd3fbfaac0cb11f79d2c175c6ab2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/bgtiles.png"
-dest_files=["res://.godot/imported/bgtiles.png-d924bd12f22a769415db27e66df3d3d1.ctex"]
+source_file="res://Assets/Characters/Adam_sit3_16x16.png"
+dest_files=["res://.godot/imported/Adam_sit3_16x16.png-aa12bd3fbfaac0cb11f79d2c175c6ab2.ctex"]
 
 [params]
 

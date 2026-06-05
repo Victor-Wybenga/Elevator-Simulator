@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://u0iv0nayhn73"]
 
 [ext_resource type="Script" uid="uid://d6lq7box3ji7" path="res://Scripts/elevator.gd" id="1_cyba6"]
-[ext_resource type="Script" uid="uid://usb5bwwcwubg" path="res://Scenes/door_timer.gd" id="2_7i85y"]
+[ext_resource type="Script" uid="uid://usb5bwwcwubg" path="res://Scripts/door_timer.gd" id="2_7i85y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ip31b"]
 size = Vector2(48, 48)
