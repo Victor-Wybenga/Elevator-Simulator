@@ -9,10 +9,11 @@ signal call_elevator(floor: int)
 func _ready() -> void:
 	for floor in range(10):
 		var button: Button = Button.new()
-		button.custom_minimum_size = Vector2(45, 45)
+		button.custom_minimum_size = Vector2(100, 50)
 		button.text = str(10 - floor)
 		button.add_theme_font_override("font", font)
 		button.add_theme_font_size_override("font_size", 25)
+		button.alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		button.pressed.connect(_on_button_pressed.bind(10 - floor))
 		add_child(button)
 

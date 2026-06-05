@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://u0iv0nayhn73"]
 
 [ext_resource type="Script" uid="uid://d6lq7box3ji7" path="res://Scripts/elevator.gd" id="1_cyba6"]
+[ext_resource type="Script" uid="uid://usb5bwwcwubg" path="res://Scenes/door_timer.gd" id="2_7i85y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ip31b"]
 size = Vector2(48, 48)
@@ -27,5 +28,7 @@ color = Color(1, 0, 0.93333334, 1)
 
 [node name="Timer" type="Timer" parent="." unique_id=987239804]
 process_callback = 0
+script = ExtResource("2_7i85y")
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="on_floor_timeout" from="Timer" to="." method="_on_timer_on_floor_timeout"]
+[connection signal="timeout" from="Timer" to="Timer" method="_on_timeout"]

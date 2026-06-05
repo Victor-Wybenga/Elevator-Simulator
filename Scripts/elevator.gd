@@ -1,90 +1,116 @@
 extends StaticBody2D
-enum ElevatorState {
-	MOVING_UP = -1,
+
+signal reached_floor(floor: int)
+
+enum Direction {
+	UP = -1,
 	IDLE = 0,
-	MOVING_DOWN = 1,
-	LOADING = 2,
-	DOOR_OPENING = 3,
-	DOOR_CLOSING = 4
+	DOWN = 1,
+}
+
+enum Door {
+	CLOSED = 0,
+	OPENING = 1,
+	OPEN = 2,
+	CLOSING = 3
 }
 
 const SPEED: float = 100.0
 const FLOORS: int = 10
+@onready var BOUNDS: Vector2 = $CollisionShape2D.get_shape().get_rect().size
 
-var called_floors: Array[int]
+var requested_floors: Array[bool]
+var destination_floors: Array[bool]
 
 var current_floor: int
-var target_floor: int
-var state: ElevatorState = ElevatorState.IDLE
+var direction: Direction = Direction.IDLE
+var door: Door = Door.CLOSED
 
-signal reached_floor(floor: int)
+func _ready() -> void:
+	requested_floors.resize(FLOORS)
+	requested_floors.fill(false)
+	
+	destination_floors.resize(FLOORS)
+	destination_floors.fill(false)
 
 func get_floor(y_position: float) -> int:
 	var height: float = get_viewport_rect().size.y
-	var bound_height: float = $CollisionShape2D.get_shape().get_rect().size.y
-	var usable_height: float = height - bound_height
-	return round(FLOORS - (FLOORS / usable_height) * (y_position - (3 * bound_height / 4)))
+	var floor_height: float = height / FLOORS
+	var bound_height: float = BOUNDS.y / 2
+	var adjusted_y_position = height - (y_position + bound_height)
+	return ceil(adjusted_y_position / floor_height) + 1
 
 func get_floor_position(floor: int) -> float:
 	var height: float = get_viewport_rect().size.y
-	var bound_height: float = $CollisionShape2D.get_shape().get_rect().size.y
-	var usable_height: float = height - bound_height
-	return (usable_height / FLOORS) * (FLOORS - floor) + (3 * bound_height / 4)
+	var floor_height: float = height / FLOORS
+	var bound_height: float = BOUNDS.y / 2
+	return height - bound_height - (floor - 1) * floor_height
 
 func _process(delta: float) -> void:
-	match state:
-		ElevatorState.DOOR_OPENING: $ColorRect.color = Color.GREEN
-		ElevatorState.IDLE: $ColorRect.color = Color.YELLOW
-		_: $ColorRect.color = Color.PURPLE
+	match door:
+		Door.OPENING: $ColorRect.color = Color.RED
+		Door.OPEN: $ColorRect.color = Color.ORANGE
+		Door.CLOSING: $ColorRect.color = Color.YELLOW
+		_: $ColorRect.color = Color.WHITE
+
+func closest_floor_direction() -> Direction:
+	var next_floor = requested_floors.find(true) + 1
+	if next_floor <= 0:
+		return Direction.IDLE
+	elif next_floor > current_floor:
+		return Direction.UP
+	elif next_floor < current_floor:
+		return Direction.DOWN
+	else:
+		return Direction.IDLE
+
+func next_direction(floor: int) -> Direction:
+	var no_floors_above = requested_floors.slice(floor - 1).find(true) == -1
+	var no_floors_below = requested_floors.slice(0, floor - 1).find(true) == -1
+	if direction == Direction.IDLE \
+	or direction == Direction.UP and no_floors_above \
+	or direction == Direction.DOWN and no_floors_below:
+		return closest_floor_direction()
+	else:
+		return direction
 
 func move(delta: float):
-	move_and_collide(Vector2(0, SPEED * delta * state))
-	
 	var on_floor: bool = abs(
 		self.position.y - get_floor_position(current_floor)
-		) <= SPEED * delta
+		) <= (SPEED * delta)
 	
-	if on_floor and current_floor in called_floors:
+	if on_floor and requested_floors[current_floor - 1]:
 		self.position.y = get_floor_position(current_floor)
-		$Timer.start()
-		state = ElevatorState.DOOR_OPENING
+		door = Door.OPEN
+		$Timer.start_with_floor(current_floor)
+	else:
+		move_and_collide(Vector2(0, SPEED * delta * direction))
 
 func _physics_process(delta: float) -> void:
 	current_floor = get_floor(self.position.y)
-	match state:
-		ElevatorState.MOVING_DOWN: 
-			target_floor = called_floors.min()
-			move(delta)
-		ElevatorState.MOVING_UP: 
-			target_floor = called_floors.max()
-			move(delta)
+	if door == Door.CLOSED:
+		move(delta)
+
+func _on_timer_on_floor_timeout(floor: int) -> void:
+	reached_floor.emit(floor)
+	requested_floors[floor - 1] = false
+	direction = next_direction(floor)
+	door = Door.CLOSED
+	#$"../DestinationFloorButtons".visible = true
 
 func _on_elevator_buttons_call_elevator(floor: int) -> void:
-	called_floors.push_back(floor)
-	if state == ElevatorState.IDLE:
-		if floor > current_floor:
-			state = ElevatorState.MOVING_UP
-		elif floor < current_floor:
-			state = ElevatorState.MOVING_DOWN
-		else:
-			state = ElevatorState.DOOR_OPENING
-			$Timer.start()
+	requested_floors[floor - 1] = true
+	direction = next_direction(current_floor)
 
-func _on_timer_timeout() -> void:
-	state = ElevatorState.LOADING
-	called_floors.erase(current_floor)
-	reached_floor.emit(current_floor)
-	$"../DestinationFloorButtons".visible = true
-
-func _on_destination_floor_buttons_call_elevator(floor: int) -> void:
-	$"../DestinationFloorButtons".visible = false
-	if target_floor == current_floor:
-		if   called_floors.is_empty(): state = ElevatorState.IDLE
-		elif current_floor > called_floors.min(): state = ElevatorState.MOVING_DOWN
-		elif current_floor < called_floors.min(): state = ElevatorState.MOVING_UP
-		else:
-			state = ElevatorState.DOOR_OPENING
-			$Timer.start()
-	elif target_floor > current_floor: state = ElevatorState.MOVING_UP
-	elif target_floor < current_floor: state = ElevatorState.MOVING_DOWN
-	called_floors.push_back(floor)
+#func _on_destination_floor_buttons_call_elevator(floor: int) -> void:
+	#$"../DestinationFloorButtons".visible = false
+	#if target_floor == current_floor:
+		#if   called_floors.is_empty(): state = ElevatorState.IDLE
+		#elif current_floor > called_floors.min(): state = ElevatorState.MOVING_DOWN
+		#elif current_floor < called_floors.min(): state = ElevatorState.MOVING_UP
+		#else:
+			#state = ElevatorState.DOOR_OPENING
+			#$Timer.start()
+	#elif target_floor > current_floor: state = ElevatorState.MOVING_UP
+	#elif target_floor < current_floor: state = ElevatorState.MOVING_DOWN
+	#called_floors.push_back(floor)
