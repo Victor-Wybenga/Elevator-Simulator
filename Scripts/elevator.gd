@@ -19,7 +19,7 @@ const SPEED: float = 100.0
 const FLOORS: int = 10
 @onready var BOUNDS: Vector2 = $CollisionShape2D.get_shape().get_rect().size
 
-var requested_floors: Array[bool]
+var requested_floors: Array[Direction]
 var destination_floors: Array[bool]
 
 var current_floor: int
@@ -28,10 +28,10 @@ var door: Door = Door.CLOSED
 
 func _ready() -> void:
 	requested_floors.resize(FLOORS)
-	requested_floors.fill(false)
+	requested_floors.fill(Direction.IDLE)
 	
 	destination_floors.resize(FLOORS)
-	destination_floors.fill(false)
+	destination_floors.fill(Direction.IDLE)
 
 func get_floor(y_position: float) -> int:
 	var height: float = get_viewport_rect().size.y
@@ -54,32 +54,49 @@ func _process(delta: float) -> void:
 		_: $ColorRect.color = Color.BLACK
 
 func closest_floor_direction() -> Direction:
-	var next_floor = requested_floors.find(true) + 1
-	if next_floor <= 0:
+	var next_floor = requested_floors.find_custom(
+		func(x): return x != Direction.IDLE
+	) + 1
+	
+	if next_floor <= 0: # no floors
 		return Direction.IDLE
 	elif next_floor > current_floor:
 		return Direction.UP
 	elif next_floor < current_floor:
 		return Direction.DOWN
-	else:
+	else: # same floor
 		return Direction.IDLE
 
+func remaining_floors_in(dir: Direction, floor: int) -> bool:
+	match dir:
+		Direction.UP:
+			return not requested_floors.slice(floor - 1).all(
+				func(x): return x == Direction.IDLE
+			)
+		Direction.DOWN:
+			return not requested_floors.slice(0, floor - 1).all(
+				func(x): return x == Direction.IDLE
+			)
+		_:
+			return false
+			
 func next_direction(floor: int) -> Direction:
-	var no_floors_above = requested_floors.slice(floor - 1).find(true) == -1
-	var no_floors_below = requested_floors.slice(0, floor - 1).find(true) == -1
-	if direction == Direction.IDLE \
-	or direction == Direction.UP and no_floors_above \
-	or direction == Direction.DOWN and no_floors_below:
-		return closest_floor_direction()
-	else:
+	if remaining_floors_in(direction, floor):
 		return direction
+	else:
+		return closest_floor_direction()
 
 func move(delta: float):
 	var on_floor: bool = abs(
 		self.position.y - get_floor_position(current_floor)
 		) <= (SPEED * delta)
 	
-	if on_floor and requested_floors[current_floor - 1]:
+	if on_floor \
+	and requested_floors[current_floor - 1] != Direction.IDLE \
+	and not (
+		remaining_floors_in(direction, current_floor) 
+		and requested_floors[current_floor - 1] != direction
+	):	
 		self.position.y = get_floor_position(current_floor)
 		door = Door.OPEN
 		$Timer.start_with_floor(current_floor)
@@ -93,13 +110,13 @@ func _physics_process(delta: float) -> void:
 
 func _on_timer_on_floor_timeout(floor: int) -> void:
 	reached_floor.emit(floor)
-	requested_floors[floor - 1] = false
+	requested_floors[floor - 1] = Direction.IDLE
 	direction = next_direction(floor)
 	door = Door.CLOSED
 	#$"../DestinationFloorButtons".visible = true
 
 func _on_elevator_buttons_call_elevator(floor: int) -> void:
-	requested_floors[floor - 1] = true
+	requested_floors[floor - 1] = Direction.UP
 	direction = next_direction(current_floor)
 
 #func _on_destination_floor_buttons_call_elevator(floor: int) -> void:
