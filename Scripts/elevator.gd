@@ -107,10 +107,21 @@ func _physics_process(delta: float) -> void:
 		move(delta)
 
 func _on_timer_on_floor_timeout(floor: int) -> void:
-	reached_floor.emit(floor, direction)
+	
 	match direction:
-		Direction.UP: ups ^= (1 << (floor - 1))
-		Direction.DOWN: downs ^= (1 << (floor - 1))
+		Direction.UP: 
+			ups ^= (1 << (floor - 1))
+			reached_floor.emit(floor, Direction.UP)
+		Direction.DOWN: 
+			downs ^= (1 << (floor - 1))
+			reached_floor.emit(floor, Direction.DOWN)
+		Direction.IDLE:
+			if ups & (1 << (floor - 1)):
+				ups ^= (1 << (floor - 1))
+				reached_floor.emit(floor, Direction.UP)
+			elif downs & (1 << (floor - 1)):
+				downs ^= (1 << (floor - 1))
+				reached_floor.emit(floor, Direction.DOWN)
 	direction = next_direction(floor)
 	door = Door.CLOSED
 
