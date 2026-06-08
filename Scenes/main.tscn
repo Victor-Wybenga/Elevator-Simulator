@@ -10,12 +10,11 @@
 [node name="Elevator" parent="." unique_id=670379961 instance=ExtResource("1_bo1nx")]
 position = Vector2(786, 354)
 
-[node name="ElevatorButtons" type="GridContainer" parent="." unique_id=921421354]
+[node name="ElevatorButtons" type="HBoxContainer" parent="." unique_id=1493701313]
 texture_filter = 1
 offset_left = 707.0
-offset_right = 960.0
+offset_right = 871.0
 offset_bottom = 536.0
-columns = 3
 script = ExtResource("2_8gbba")
 
 [node name="Queue" type="Label" parent="." unique_id=247635226]
