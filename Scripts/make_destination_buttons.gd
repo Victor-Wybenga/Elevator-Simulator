@@ -1,7 +1,7 @@
 @tool
 extends GridContainer
 
-@onready var font = load("res://Assets/font.ttf")
+@onready var font = load("res://Assets/monogram.ttf")
 
 signal call_elevator(floor: int)
 
@@ -9,12 +9,23 @@ signal call_elevator(floor: int)
 func _ready() -> void:
 	for floor in range(10):
 		var button: Button = Button.new()
-		button.custom_minimum_size = Vector2(90, 90)
-		button.text = str(10 - floor)
-		button.add_theme_font_override("font", font)
-		button.add_theme_font_size_override("font_size", 50)
+		button.custom_minimum_size = Vector2(64, 64)
 		button.pressed.connect(_on_button_pressed.bind(10 - floor))
-		add_child(button)
+		
+		var text: Label = Label.new()
+		text.text = str(10 - floor)
+		text.label_settings = LabelSettings.new()
+		text.label_settings.font = font
+		text.label_settings.font_size = 48
+		text.label_settings.shadow_size = 2
+		text.label_settings.shadow_offset = Vector2(2, 2)
+		text.label_settings.shadow_color = Color.BLACK
+		text.set_anchors_preset(Control.PRESET_FULL_RECT)
+		text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		
+		button.add_child(text)
+		self.add_child(button)
 
 func _on_button_pressed(floor: int) -> void:
 	call_elevator.emit(floor)

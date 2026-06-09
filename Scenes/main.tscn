@@ -2,33 +2,55 @@
 
 [ext_resource type="PackedScene" uid="uid://u0iv0nayhn73" path="res://Scenes/elevator.tscn" id="1_bo1nx"]
 [ext_resource type="Script" uid="uid://mfdy5qqx77e5" path="res://Scripts/make_call_buttons.gd" id="2_8gbba"]
+[ext_resource type="FontFile" uid="uid://01uy0u0ilga4" path="res://Assets/monogram.ttf" id="3_kry3j"]
 [ext_resource type="Script" uid="uid://114m67871xl1" path="res://Scripts/queue_display.gd" id="4_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://clfccduyqpou3" path="res://Scenes/destination_floor_buttons.tscn" id="4_kry3j"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_21xkr"]
+font = ExtResource("3_kry3j")
+font_size = 32
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.7294118)
+shadow_offset = Vector2(2, 2)
 
 [node name="Main" type="Node2D" unique_id=824640743]
 
 [node name="Elevator" parent="." unique_id=670379961 instance=ExtResource("1_bo1nx")]
-position = Vector2(786, 354)
+position = Vector2(792, 354)
 
 [node name="ElevatorButtons" type="HBoxContainer" parent="." unique_id=1493701313]
 texture_filter = 1
-offset_left = 707.0
+offset_left = 713.0
 offset_right = 871.0
 offset_bottom = 536.0
 script = ExtResource("2_8gbba")
 
 [node name="Queue" type="Label" parent="." unique_id=247635226]
-offset_right = 40.0
-offset_bottom = 23.0
+texture_filter = 1
+offset_left = 16.0
+offset_top = 11.0
+offset_right = 56.0
+offset_bottom = 34.0
+text = "Up: {ups}
+Down: {downs}
+Destinations: {dests}
+Current Floor: {floor}
+Direction: {state}
+Door: {door}"
+label_settings = SubResource("LabelSettings_21xkr")
 script = ExtResource("4_jjvhh")
 
 [node name="DestinationFloorButtons" parent="." unique_id=1992610041 instance=ExtResource("4_kry3j")]
 visible = false
-offset_left = 94.0
-offset_top = 166.0
-offset_right = 372.0
-offset_bottom = 538.0
+offset_left = 432.0
+offset_top = 101.0
+offset_right = 564.0
+offset_bottom = 437.0
+columns = 2
 
+[connection signal="reached_destination" from="Elevator" to="ElevatorButtons" method="_on_elevator_reached_destination"]
 [connection signal="reached_floor" from="Elevator" to="ElevatorButtons" method="_on_elevator_reached_floor"]
 [connection signal="call_elevator" from="ElevatorButtons" to="Elevator" method="_on_elevator_buttons_call_elevator"]
+[connection signal="call_elevator" from="ElevatorButtons" to="ElevatorButtons" method="_on_call_elevator"]
 [connection signal="call_elevator" from="DestinationFloorButtons" to="Elevator" method="_on_destination_floor_buttons_call_elevator"]
+[connection signal="call_elevator" from="DestinationFloorButtons" to="ElevatorButtons" method="_on_destination_floor_buttons_call_elevator"]

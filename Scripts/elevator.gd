@@ -14,6 +14,7 @@ enum Door {
 }
 
 signal reached_floor(floor: int, direction: Direction)
+signal reached_destination(floor: int)
 
 const SPEED: float = 100.0
 const FLOORS: int = 10
@@ -21,7 +22,7 @@ const FLOORS: int = 10
 
 var ups: int = 0b0_000_000_000
 var downs: int = 0b0_000_000_000
-#var destinations: int = 0b0000000000 #unused atm
+var destinations: int = 0b0000000000
 
 var current_floor: int
 var direction: Direction = Direction.IDLE
@@ -51,7 +52,7 @@ func closest_floor_direction() -> Direction:
 	var next_floor: int = -1
 	var closest_distance: int = INF
 	for floor in range(1, FLOORS + 1):
-		if (ups | downs) & (1 << (floor - 1)):
+		if (ups | downs | destinations) & (1 << (floor - 1)):
 			var dist: int = abs(current_floor - floor)
 			if dist < closest_distance:
 				closest_distance = dist
@@ -70,9 +71,9 @@ func closest_floor_direction() -> Direction:
 func remaining_floors_in(dir: Direction, from: int) -> bool:
 	match dir:
 		Direction.UP:
-			return (ups | downs) >> from
+			return (ups | downs | destinations) >> from
 		Direction.DOWN:
-			return (ups | downs) & ((1 << from - 1) - 1)
+			return (ups | downs | destinations) & ((1 << from - 1) - 1)
 		_: return false
 			
 func next_direction(floor: int) -> Direction:
@@ -87,14 +88,14 @@ func move(delta: float):
 		) <= (SPEED * delta)
 	
 	if on_floor \
-	and (ups | downs) & (1 << (current_floor - 1)) \
+	and (ups | downs | destinations) & (1 << (current_floor - 1)) \
 	and (
 		not remaining_floors_in(direction, current_floor)
 		or (ups if direction == Direction.UP else downs) &
 		   (1 << (current_floor - 1))
 	):
 		self.position.y = get_floor_position(current_floor)
-		door = Door.OPEN
+		door = Door.OPENING
 		$Timer.start_with_floor(current_floor)
 	else:
 		move_and_collide(Vector2(0, SPEED * delta * direction))
@@ -105,6 +106,7 @@ func _physics_process(delta: float) -> void:
 		move(delta)
 
 func _on_timer_on_floor_timeout(floor: int) -> void:
+	door = Door.OPEN
 	match direction:
 		Direction.DOWN:
 			if downs & (1 << (floor - 1)):
@@ -120,25 +122,25 @@ func _on_timer_on_floor_timeout(floor: int) -> void:
 			elif downs & (1 << (floor - 1)):
 				downs ^= (1 << (floor - 1))
 				reached_floor.emit(floor, Direction.DOWN)
-			
-	direction = next_direction(floor)
-	door = Door.CLOSED
+	
+	if destinations & (1 << (floor - 1)):
+		destinations ^= (1 << (floor - 1))
+		reached_destination.emit(floor)
+		$"../ElevatorButtons".indicators.get_child(10 - floor).visible = false
+		direction = next_direction(floor)
+		door = Door.CLOSED
+	else:
+		$"../DestinationFloorButtons".visible = true
 
 func _on_elevator_buttons_call_elevator(floor: int, dir: Direction) -> void:
 	match dir:
 		Direction.UP: ups |= (1 << (floor - 1))
 		Direction.DOWN: downs |= (1 << (floor - 1))
-	direction = next_direction(current_floor)
+	if floor != current_floor:
+		direction = next_direction(current_floor)
 
-#func _on_destination_floor_buttons_call_elevator(floor: int) -> void:
-	#$"../DestinationFloorButtons".visible = false
-	#if target_floor == current_floor:
-		#if   called_floors.is_empty(): state = ElevatorState.IDLE
-		#elif current_floor > called_floors.min(): state = ElevatorState.MOVING_DOWN
-		#elif current_floor < called_floors.min(): state = ElevatorState.MOVING_UP
-		#else:
-			#state = ElevatorState.DOOR_OPENING
-			#$Timer.start()
-	#elif target_floor > current_floor: state = ElevatorState.MOVING_UP
-	#elif target_floor < current_floor: state = ElevatorState.MOVING_DOWN
-	#called_floors.push_back(floor)
+func _on_destination_floor_buttons_call_elevator(floor: int) -> void:
+	$"../DestinationFloorButtons".visible = false
+	destinations |= (1 << (floor - 1))
+	direction = next_direction(current_floor)
+	door = Door.CLOSED
