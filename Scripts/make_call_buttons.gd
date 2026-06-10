@@ -20,43 +20,43 @@ signal call_elevator(floor: int, direction: Direction)
 func _ready() -> void:
 	for floor in range(10):
 		var up: Button = Button.new()
-		up.custom_minimum_size = Vector2(50, 50)
-		up.text = "\u2191"
+		up.custom_minimum_size = Vector2(28, 28)
+		up.text = " UP "
 		up.add_theme_font_override("font", font)
-		up.add_theme_font_size_override("font_size", 32)
+		up.add_theme_font_size_override("font_size", 16)
 		up.pressed.connect(_on_button_pressed.bind(10 - floor, Direction.UP))
 		up_buttons.add_child(up)
 		
 		var text: Label = Label.new()
-		text.custom_minimum_size = Vector2(50, 50)
+		text.custom_minimum_size = Vector2(28, 28)
 		text.text = str(10 - floor)
 		text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		text.label_settings = LabelSettings.new()
 		text.label_settings.font = font
-		text.label_settings.font_size = 48
+		text.label_settings.font_size = 16
 		text.label_settings.shadow_size = 2
 		text.label_settings.shadow_offset = Vector2(2, 2)
 		text.label_settings.shadow_color = Color.BLACK
 		floor_labels.add_child(text)
 		
 		var down: Button = Button.new()
-		down.custom_minimum_size = Vector2(50, 50)
-		down.text = "\u2193"
+		down.custom_minimum_size = Vector2(28, 28)
+		down.text = "DOWN"
 		down.add_theme_font_override("font", font)
-		down.add_theme_font_size_override("font_size", 32)
+		down.add_theme_font_size_override("font_size", 16)
 		down.pressed.connect(_on_button_pressed.bind(10 - floor, Direction.DOWN))
 		down_buttons.add_child(down)
 		
 		var indicator: Label = Label.new()
-		indicator.custom_minimum_size = Vector2(50, 50)
+		indicator.custom_minimum_size = Vector2(28, 28)
 		indicator.text = " "
 		indicator.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		indicator.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		indicator.label_settings = LabelSettings.new()
 		indicator.label_settings.font = font
 		indicator.label_settings.font_color = Color.RED
-		indicator.label_settings.font_size = 48
+		indicator.label_settings.font_size = 16
 		indicator.label_settings.shadow_size = 2
 		indicator.label_settings.shadow_offset = Vector2(2, 2)
 		indicator.label_settings.shadow_color = Color.BLACK

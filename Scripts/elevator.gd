@@ -42,11 +42,7 @@ func get_floor_position(floor: int) -> float:
 	return height - bound_height - (floor - 1) * floor_height
 
 func _process(delta: float) -> void:
-	match door:
-		Door.OPENING: $ColorRect.color = Color.RED
-		Door.OPEN: $ColorRect.color = Color.ORANGE
-		Door.CLOSING: $ColorRect.color = Color.YELLOW
-		_: $ColorRect.color = Color.BLACK
+	pass
 
 func closest_floor_direction() -> Direction:
 	var next_floor: int = -1

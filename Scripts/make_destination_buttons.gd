@@ -9,14 +9,14 @@ signal call_elevator(floor: int)
 func _ready() -> void:
 	for floor in range(10):
 		var button: Button = Button.new()
-		button.custom_minimum_size = Vector2(64, 64)
+		button.custom_minimum_size = Vector2(48, 48)
 		button.pressed.connect(_on_button_pressed.bind(10 - floor))
 		
 		var text: Label = Label.new()
 		text.text = str(10 - floor)
 		text.label_settings = LabelSettings.new()
 		text.label_settings.font = font
-		text.label_settings.font_size = 48
+		text.label_settings.font_size = 32
 		text.label_settings.shadow_size = 2
 		text.label_settings.shadow_offset = Vector2(2, 2)
 		text.label_settings.shadow_color = Color.BLACK
