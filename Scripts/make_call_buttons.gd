@@ -50,7 +50,7 @@ func _ready() -> void:
 		
 		var indicator: Label = Label.new()
 		indicator.custom_minimum_size = Vector2(50, 50)
-		indicator.text = "*"
+		indicator.text = " "
 		indicator.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		indicator.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		indicator.label_settings = LabelSettings.new()
@@ -60,7 +60,6 @@ func _ready() -> void:
 		indicator.label_settings.shadow_size = 2
 		indicator.label_settings.shadow_offset = Vector2(2, 2)
 		indicator.label_settings.shadow_color = Color.BLACK
-		indicator.visible = false
 		indicators.add_child(indicator)
 	
 	self.add_child(up_buttons)
@@ -80,7 +79,7 @@ func _on_elevator_reached_floor(floor: int, direction: Direction) -> void:
 		Direction.DOWN: self.down_buttons.get_child(10 - floor).disabled = false
 
 func _on_destination_floor_buttons_call_elevator(floor: int) -> void:
-	indicators.get_child(10 - floor).show()
+	self.indicators.get_child(10 - floor).text = "*"
 
 func _on_elevator_reached_destination(floor: int) -> void:
-	indicators.get_child(10 - floor).hide()
+	self.indicators.get_child(10 - floor).text = " "

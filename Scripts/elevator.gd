@@ -126,7 +126,6 @@ func _on_timer_on_floor_timeout(floor: int) -> void:
 	if destinations & (1 << (floor - 1)):
 		destinations ^= (1 << (floor - 1))
 		reached_destination.emit(floor)
-		$"../ElevatorButtons".indicators.get_child(10 - floor).visible = false
 		direction = next_direction(floor)
 		door = Door.CLOSED
 	else:
