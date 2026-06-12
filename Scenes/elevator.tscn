@@ -2,15 +2,51 @@
 
 [ext_resource type="Script" uid="uid://d6lq7box3ji7" path="res://Scripts/elevator.gd" id="1_cyba6"]
 [ext_resource type="Script" uid="uid://usb5bwwcwubg" path="res://Scripts/door_timer.gd" id="2_7i85y"]
+[ext_resource type="Texture2D" uid="uid://d2paclu287msm" path="res://Assets/elevator.png" id="2_jd6vs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ip31b"]
 size = Vector2(38, 24.5)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_1gjip"]
+atlas = ExtResource("2_jd6vs")
+region = Rect2(0, 0, 38, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sdfrh"]
+atlas = ExtResource("2_jd6vs")
+region = Rect2(38, 0, 38, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ehl1p"]
+atlas = ExtResource("2_jd6vs")
+region = Rect2(76, 0, 38, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i2rfo"]
+atlas = ExtResource("2_jd6vs")
+region = Rect2(114, 0, 38, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sopnf"]
+atlas = ExtResource("2_jd6vs")
+region = Rect2(152, 0, 38, 25)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_7i85y"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1gjip")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sdfrh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ehl1p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i2rfo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sopnf")
+}],
 "loop": false,
-"name": &"default",
+"name": &"door",
 "speed": 5.0
 }]
 
@@ -21,13 +57,20 @@ script = ExtResource("1_cyba6")
 position = Vector2(0, -0.25)
 shape = SubResource("RectangleShape2D_ip31b")
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1421111950]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1421111950]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_7i85y")
+animation = &"door"
 
 [node name="Timer" type="Timer" parent="." unique_id=987239804]
 process_callback = 0
+wait_time = 0.8
 script = ExtResource("2_7i85y")
+
+[node name="ClosingTimer" type="Timer" parent="." unique_id=838056879]
+process_callback = 0
+wait_time = 0.8
 
 [connection signal="on_floor_timeout" from="Timer" to="." method="_on_timer_on_floor_timeout"]
 [connection signal="timeout" from="Timer" to="Timer" method="_on_timeout"]
+[connection signal="timeout" from="ClosingTimer" to="." method="_on_closing_timer_timeout"]

@@ -42,7 +42,11 @@ func get_floor_position(floor: int) -> float:
 	return height - bound_height - (floor - 1) * floor_height
 
 func _process(delta: float) -> void:
-	pass
+	match door:
+		Door.CLOSED: $AnimatedSprite2D.frame = 0
+		Door.OPENING: $AnimatedSprite2D.play("door")
+		Door.OPEN: $AnimatedSprite2D.frame = 4
+		Door.CLOSING: $AnimatedSprite2D.play_backwards("door")
 
 func closest_floor_direction() -> Direction:
 	var next_floor: int = -1
@@ -123,9 +127,10 @@ func _on_timer_on_floor_timeout(floor: int) -> void:
 		destinations ^= (1 << (floor - 1))
 		reached_destination.emit(floor)
 		direction = next_direction(floor)
-		door = Door.CLOSED
+		door = Door.CLOSING
+		$ClosingTimer.start()
 	else:
-		$"../DestinationFloorButtons".visible = true
+		$"../UI/DestinationFloorButtons".visible = true
 
 func _on_elevator_buttons_call_elevator(floor: int, dir: Direction) -> void:
 	match dir:
@@ -135,7 +140,13 @@ func _on_elevator_buttons_call_elevator(floor: int, dir: Direction) -> void:
 		direction = next_direction(current_floor)
 
 func _on_destination_floor_buttons_call_elevator(floor: int) -> void:
-	$"../DestinationFloorButtons".visible = false
+	$"../UI/DestinationFloorButtons".visible = false
 	destinations |= (1 << (floor - 1))
 	direction = next_direction(current_floor)
+	door = Door.CLOSING
+	$ClosingTimer.start()
+
+
+func _on_closing_timer_timeout() -> void:
+	$ClosingTimer.stop()
 	door = Door.CLOSED
