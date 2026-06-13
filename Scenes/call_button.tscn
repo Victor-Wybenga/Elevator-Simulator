@@ -2,21 +2,70 @@
 
 [ext_resource type="Script" uid="uid://b533o57ce6w6u" path="res://Scripts/call_button.gd" id="1_kj6lg"]
 [ext_resource type="FontFile" uid="uid://01uy0u0ilga4" path="res://Assets/monogram.ttf" id="2_r6a0e"]
+[ext_resource type="Texture2D" uid="uid://cvhv4fyhoovhr" path="res://Assets/buttons.png" id="2_to6kr"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_to6kr"]
+font = ExtResource("2_r6a0e")
+font_color = Color(1, 0, 0, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fsibu"]
+atlas = ExtResource("2_to6kr")
+region = Rect2(129, 1, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_to6kr"]
+atlas = ExtResource("2_to6kr")
+region = Rect2(225, 1, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pm2jn"]
+atlas = ExtResource("2_to6kr")
+region = Rect2(161, 1, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gn1o7"]
+atlas = ExtResource("2_to6kr")
+region = Rect2(225, 1, 30, 30)
 
 [sub_resource type="LabelSettings" id="LabelSettings_kj6lg"]
 font = ExtResource("2_r6a0e")
 shadow_size = 2
 shadow_color = Color(0, 0, 0, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_mk7qd"]
+atlas = ExtResource("2_to6kr")
+region = Rect2(1, 1, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_63jct"]
+atlas = ExtResource("2_to6kr")
+region = Rect2(97, 1, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_duuct"]
+atlas = ExtResource("2_to6kr")
+region = Rect2(33, 1, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ab7d"]
+atlas = ExtResource("2_to6kr")
+region = Rect2(97, 1, 30, 30)
+
 [node name="CallButton" type="HBoxContainer" unique_id=864441781]
 script = ExtResource("1_kj6lg")
 
-[node name="UpButton" type="Button" parent="." unique_id=1084963710]
+[node name="Indicator" type="Label" parent="." unique_id=1493537883]
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_r6a0e")
-theme_override_font_sizes/font_size = 16
-text = " UP "
+text = " "
+label_settings = SubResource("LabelSettings_to6kr")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UpButton" type="TextureButton" parent="." unique_id=2130489806]
+texture_filter = 1
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_fsibu")
+texture_pressed = SubResource("AtlasTexture_to6kr")
+texture_hover = SubResource("AtlasTexture_pm2jn")
+texture_disabled = SubResource("AtlasTexture_gn1o7")
 
 [node name="Label" type="Label" parent="." unique_id=862429628]
 custom_minimum_size = Vector2(28, 28)
@@ -26,16 +75,10 @@ label_settings = SubResource("LabelSettings_kj6lg")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DownButton" type="Button" parent="." unique_id=1581458093]
+[node name="DownButton" type="TextureButton" parent="." unique_id=1078120273]
+texture_filter = 1
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_r6a0e")
-theme_override_font_sizes/font_size = 16
-text = "DOWN"
-
-[node name="Indicator" type="Label" parent="." unique_id=1493537883]
-custom_minimum_size = Vector2(28, 28)
-layout_mode = 2
-text = " "
-label_settings = SubResource("LabelSettings_kj6lg")
-horizontal_alignment = 1
-vertical_alignment = 1
+texture_normal = SubResource("AtlasTexture_mk7qd")
+texture_pressed = SubResource("AtlasTexture_63jct")
+texture_hover = SubResource("AtlasTexture_duuct")
+texture_disabled = SubResource("AtlasTexture_2ab7d")
