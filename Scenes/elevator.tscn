@@ -2,30 +2,30 @@
 
 [ext_resource type="Script" uid="uid://d6lq7box3ji7" path="res://Scripts/elevator.gd" id="1_cyba6"]
 [ext_resource type="Script" uid="uid://usb5bwwcwubg" path="res://Scripts/door_timer.gd" id="2_7i85y"]
-[ext_resource type="Texture2D" uid="uid://d2paclu287msm" path="res://Assets/elevator.png" id="2_jd6vs"]
+[ext_resource type="Texture2D" uid="uid://r72k0nsjua3w" path="res://Assets/elevator2.png" id="2_jd6vs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ip31b"]
-size = Vector2(38, 24.5)
+size = Vector2(38, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1gjip"]
 atlas = ExtResource("2_jd6vs")
-region = Rect2(0, 0, 38, 25)
+region = Rect2(0, 0, 38, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sdfrh"]
 atlas = ExtResource("2_jd6vs")
-region = Rect2(38, 0, 38, 25)
+region = Rect2(38, 0, 38, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ehl1p"]
 atlas = ExtResource("2_jd6vs")
-region = Rect2(76, 0, 38, 25)
+region = Rect2(76, 0, 38, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i2rfo"]
 atlas = ExtResource("2_jd6vs")
-region = Rect2(114, 0, 38, 25)
+region = Rect2(114, 0, 38, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sopnf"]
 atlas = ExtResource("2_jd6vs")
-region = Rect2(152, 0, 38, 25)
+region = Rect2(152, 0, 38, 50)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7i85y"]
 animations = [{
@@ -54,7 +54,6 @@ animations = [{
 script = ExtResource("1_cyba6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1736835899]
-position = Vector2(0, -0.25)
 shape = SubResource("RectangleShape2D_ip31b")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1421111950]

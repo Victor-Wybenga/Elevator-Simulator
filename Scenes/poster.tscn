@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://cwqu20kmjvq8"]
+
+[ext_resource type="Script" uid="uid://dhfvqt05t0rje" path="res://Scripts/poster.gd" id="1_0gu4l"]
+[ext_resource type="Texture2D" uid="uid://dgm6yubwx0lm" path="res://Assets/poster.png" id="1_dywd2"]
+[ext_resource type="FontFile" uid="uid://01uy0u0ilga4" path="res://Assets/monogram.ttf" id="1_efwel"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0gu4l"]
+font = ExtResource("1_efwel")
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.11764706)
+
+[node name="Poster" type="Node2D" unique_id=831076601]
+texture_filter = 1
+script = ExtResource("1_0gu4l")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1039767868]
+texture_filter = 1
+texture = ExtResource("1_dywd2")
+
+[node name="FloorNumber" type="Label" parent="." unique_id=1214508738]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.0
+offset_top = -6.5
+offset_right = 3.0
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "1"
+label_settings = SubResource("LabelSettings_0gu4l")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true

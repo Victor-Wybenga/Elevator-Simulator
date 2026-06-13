@@ -30,14 +30,14 @@ var door: Door = Door.CLOSED
 
 func get_floor(y_position: float) -> int:
 	var height: float = get_viewport_rect().size.y
-	var floor_height: float = height / FLOORS
+	var floor_height: float = 2 * height / FLOORS
 	var bound_height: float = BOUNDS.y / 2
 	var adjusted_y_position = height - (y_position + bound_height)
 	return ceil(adjusted_y_position / floor_height) + 1
 
 func get_floor_position(floor: int) -> float:
 	var height: float = get_viewport_rect().size.y
-	var floor_height: float = height / FLOORS
+	var floor_height: float = 2 * height / FLOORS
 	var bound_height: float = BOUNDS.y / 2
 	return height - bound_height - (floor - 1) * floor_height
 
@@ -145,7 +145,6 @@ func _on_destination_floor_buttons_call_elevator(floor: int) -> void:
 	direction = next_direction(current_floor)
 	door = Door.CLOSING
 	$ClosingTimer.start()
-
 
 func _on_closing_timer_timeout() -> void:
 	$ClosingTimer.stop()

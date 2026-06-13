@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://c8crv3y7nnayv"]
+
+[ext_resource type="Script" uid="uid://b533o57ce6w6u" path="res://Scripts/call_button.gd" id="1_kj6lg"]
+[ext_resource type="FontFile" uid="uid://01uy0u0ilga4" path="res://Assets/monogram.ttf" id="2_r6a0e"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kj6lg"]
+font = ExtResource("2_r6a0e")
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 1)
+
+[node name="CallButton" type="HBoxContainer" unique_id=864441781]
+script = ExtResource("1_kj6lg")
+
+[node name="UpButton" type="Button" parent="." unique_id=1084963710]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_r6a0e")
+theme_override_font_sizes/font_size = 16
+text = " UP "
+
+[node name="Label" type="Label" parent="." unique_id=862429628]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+text = "1"
+label_settings = SubResource("LabelSettings_kj6lg")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DownButton" type="Button" parent="." unique_id=1581458093]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_r6a0e")
+theme_override_font_sizes/font_size = 16
+text = "DOWN"
+
+[node name="Indicator" type="Label" parent="." unique_id=1493537883]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+text = " "
+label_settings = SubResource("LabelSettings_kj6lg")
+horizontal_alignment = 1
+vertical_alignment = 1
